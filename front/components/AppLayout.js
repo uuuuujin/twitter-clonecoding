@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/Link';
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
@@ -13,7 +14,9 @@ const SearchInput = styled(Input.Search)`
 
 
 const AppLayout = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    // 구조분해 할당!!! (이렇게 해두됨)
+    // const { isLoggedIn } = useSelector((state) => state.user)  
 
     return(
         <div>
@@ -35,7 +38,7 @@ const AppLayout = ({ children }) => {
             <Row gutter={8}>
                 {/* md 6, 12, 6이면  25%, 50%, 25% 세등분한거 */}
                 <Col xs={24} md={6}>
-                    {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn}/> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>}
+                    {isLoggedIn ? <UserProfile /> : <LoginForm />}
                 </Col>
                 <Col xs={24} md={12}>
                     {children}

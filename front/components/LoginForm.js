@@ -1,8 +1,11 @@
 // import React from 'react';
 import React, { useState, useCallback } from 'react';
 import { Form, Input, Button } from 'antd';
+import useInput from '../hooks/useInput';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../reducers/user'
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
@@ -13,22 +16,16 @@ const FormWrapper = styled(Form)`
 `;
 
 
-const LoginForm = ({setIsLoggedIn}) => {
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
+const LoginForm = () => {
+    const dispatch = useDispatch();
 
-    const onChangeId = useCallback((e) => {
-        setId(e.target.value);
-    }, []);
-
-    const onChangePassword = useCallback((e) => {
-        setPassword(e.target.value);
-    }, []);
-
+    const [id, onChangeId] = useInput('');
+    const [password, onChangePassword] = useInput('');
+    
     const onsubmitForm = useCallback(() => {
         // antd에서는 onFinish에 이미 preventDefault가 적용되어 있어서 e.preventDefault 넣으면 안됨. 
         console.log(id, password);
-        setIsLoggedIn(true);
+        dispatch(loginAction({ id, password }))
     }, [id, password]);
 
     return(
@@ -55,5 +52,7 @@ const LoginForm = ({setIsLoggedIn}) => {
         </FormWrapper>
     );
 };
+
+
 
 export default LoginForm;
