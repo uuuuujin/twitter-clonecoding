@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Slick from 'react-slick';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const Overlay = styled.div`
   position: fixed;
@@ -64,12 +64,19 @@ const Indicator = styled.div`
   }
 `
 
+const Global = createGlobalStyle`
+  .slick-slide {
+    display: inline-block;
+  }
+`;
+
 
 const ImagesZoom = ({images, onClose}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   return (
     <Overlay>
+      <Global />
       <Header>
         <h1>상세이미지</h1>
         <button onClick={onClose}>X</button>
